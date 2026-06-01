@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Top 5 Jugadores CS2 — 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:       #060810;
+      --surface:  #0d1117;
+      --card:     #111622;
+      --border:   #1e2a3a;
+      --accent:   #f5a623;
+      --accent2:  #e03a3a;
+      --cyan:     #00d4ff;
+      --text:     #cfd8e3;
+      --muted:    #5a6a7e;
+      --white:    #f0f4f8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.25;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      padding: 80px 40px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 70%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--cyan), var(--accent), transparent);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      letter-spacing: 0.04em;
+      line-height: 0.9;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.25s forwards;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .hero-sub {
+      margin-top: 16px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .crosshair {
+      display: inline-block;
+      width: 24px; height: 24px;
+      position: relative;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.5s 0s forwards;
+    }
+    .crosshair::before, .crosshair::after {
+      content: '';
+      position: absolute;
+      background: var(--cyan);
+    }
+    .crosshair::before { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
+    .crosshair::after  { height: 2px; width: 100%; top: 50%; transform: translateY(-50%); }
+
+    /* ── GRID ── */
+    .grid {
+      max-width: 1200px;
+      margin: 60px auto 100px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 28px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: transform 0.4s, box-shadow 0.4s, border-color 0.3s;
+      animation: fadeUp 0.6s forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.5s; }
+    .card:nth-child(2) { animation-delay: 0.65s; }
+    .card:nth-child(3) { animation-delay: 0.80s; }
+    .card:nth-child(4) { animation-delay: 0.95s; }
+    .card:nth-child(5) { animation-delay: 1.10s; }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 0 1px var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* rank stripe */
+    .card-rank {
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+    .card:hover .card-rank { width: 6px; }
+    .card:nth-child(1) .card-rank { background: var(--accent); }
+    .card:nth-child(2) .card-rank { background: #c0c0c0; }
+    .card:nth-child(3) .card-rank { background: #cd7f32; }
+    .card:nth-child(4) .card-rank { background: var(--cyan); }
+    .card:nth-child(5) .card-rank { background: var(--accent2); }
+
+    .card-header {
+      padding: 28px 28px 20px 36px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .avatar {
+      width: 64px; height: 64px;
+      border-radius: 3px;
+      background: var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(245,166,35,0.12), transparent 60%);
+    }
+
+    .card-title { flex: 1; }
+
+    .rank-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .player-alias {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .player-name {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .team-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      padding: 3px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+
+    .team-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+    }
+
+    /* stats row */
+    .stats-row {
+      display: flex;
+      padding: 16px 28px 16px 36px;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      position: relative;
+    }
+
+    .stat + .stat::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 10%; height: 80%;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.7rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* role tag */
+    .role-tag {
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      padding: 2px 8px;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .role-rifler   { background: rgba(245,166,35,0.15); color: var(--accent);  border: 1px solid rgba(245,166,35,0.3); }
+    .role-awper    { background: rgba(0,212,255,0.10);  color: var(--cyan);    border: 1px solid rgba(0,212,255,0.25); }
+    .role-lurker   { background: rgba(224,58,58,0.12);  color: var(--accent2); border: 1px solid rgba(224,58,58,0.3);  }
+    .role-support  { background: rgba(90,106,126,0.20); color: var(--text);    border: 1px solid var(--border);        }
+
+    /* bio */
+    .card-body { padding: 20px 28px 24px 36px; }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .country {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .bio {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.65;
+      font-weight: 400;
+    }
+
+    /* achievement pill */
+    .achievements {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      padding: 3px 9px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .pill.gold   { color: var(--accent);  border-color: rgba(245,166,35,0.35); }
+    .pill.cyan   { color: var(--cyan);    border-color: rgba(0,212,255,0.3);   }
+    .pill.red    { color: var(--accent2); border-color: rgba(224,58,58,0.35);  }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+    }
+
+    footer span { color: var(--accent); }
+
+    /* ── ANIMATION ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* scanline effect on hover */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.012) 2px,
+        rgba(255,255,255,0.012) 4px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card > * { position: relative; z-index: 1; }
+
+    /* big rank number watermark */
+    .card-watermark {
+      position: absolute;
+      bottom: -10px; right: 16px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 9rem;
+      color: rgba(255,255,255,0.03);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 500px) {
+      h1 { font-size: 3.2rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="crosshair"></div>
+    <p class="hero-eyebrow">HLTV · Ranking Mundial · Temporada 2026</p>
+    <h1>TOP <span>5</span><br>CS2</h1>
+    <p class="hero-sub">Los mejores jugadores profesionales del mundo en Counter-Strike 2</p>
+  </header>
+
+  <!-- CARDS -->
+  <main class="grid">
+
+    <!-- #1 donk -->
+    <article class="card">
+      <div class="card-rank"></div>
+      <div class="card-watermark">1</div>
+      <div class="card-header">
+        <div class="avatar">DK</div>
+        <div class="card-title">
+          <p class="rank-label"># 01 &mdash; Mejor del Mundo</p>
+          <p class="player-alias">donk</p>
+          <p class="player-name">Danil Kryshkovets</p>
+          <span class="team-badge">Team Spirit</span>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-value">1.22</div><div class="stat-label">Rating 2.0</div></div>
+        <div class="stat"><div class="stat-value">73%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat"><div class="stat-value">+9</div><div class="stat-label">MVPs 2025</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="role-tag role-rifler">Rifler</span>
+          <span class="country">🇷🇺 Rusia &mdash; 19 años</span>
+        </div>
+        <p class="bio">
+          La superestrella rusa que redefinió el rifle en CS2. donk combina una puntería de primer disparo
+          excepcional con tomas de decisiones agresivas que generan espacio para su equipo. Fue el Mejor
+          Jugador del Año 2025 según HLTV y continúa dominando en 2026, jugando 162+ partidas
+          de práctica en Faceit solo en Q1. Lleva más de 1 000 días consecutivos en Team Spirit.
+        </p>
+        <div class="achievements">
+          <span class="pill gold">HLTV #1 — 2025</span>
+          <span class="pill gold">Major Shanghai 2024</span>
+          <span class="pill cyan">IEM Kraków MVP</span>
+          <span class="pill">EPL S22 Campeón</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- #2 ZywOo -->
+    <article class="card">
+      <div class="card-rank"></div>
+      <div class="card-watermark">2</div>
+      <div class="card-header">
+        <div class="avatar">ZW</div>
+        <div class="card-title">
+          <p class="rank-label"># 02 &mdash; 4× Player of the Year</p>
+          <p class="player-alias">ZywOo</p>
+          <p class="player-name">Mathieu Herbaut</p>
+          <span class="team-badge">Team Vitality</span>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-value">1.20</div><div class="stat-label">Rating 2.0</div></div>
+        <div class="stat"><div class="stat-value">71%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat"><div class="stat-value">4×</div><div class="stat-label">HLTV #1</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="role-tag role-awper">AWPer</span>
+          <span class="country">🇫🇷 Francia &mdash; 23 años</span>
+        </div>
+        <p class="bio">
+          Cuatro veces Jugador del Año de HLTV, ZywOo es el awper más completo y consistente del circuito
+          profesional. Su IQ de juego, puntería en situaciones de clutch y versatilidad táctica lo mantienen
+          en la cima incluso cuando rivaliza con donk. Él mismo reconoció a donk como el mejor rifler
+          mientras se consolida como el mejor awper del mundo. Gana ~€100k mensuales y es el pilar
+          de los múltiples campeonatos de Vitality.
+        </p>
+        <div class="achievements">
+          <span class="pill gold">HLTV #1 — 2019/21/22/23</span>
+          <span class="pill gold">Major Budapest 2025</span>
+          <span class="pill cyan">IEM Katowice 2026</span>
+          <span class="pill">BLAST Premier Campeón</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- #3 m0NESY -->
+    <article class="card">
+      <div class="card-rank"></div>
+      <div class="card-watermark">3</div>
+      <div class="card-header">
+        <div class="avatar">MN</div>
+        <div class="card-title">
+          <p class="rank-label"># 03 &mdash; Joven Superestrella</p>
+          <p class="player-alias">m0NESY</p>
+          <p class="player-name">Ilya Osipov</p>
+          <span class="team-badge">Team Falcons</span>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-value">1.18</div><div class="stat-label">Rating 2.0</div></div>
+        <div class="stat"><div class="stat-value">69%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat"><div class="stat-value">EVP</div><div class="stat-label">Cluj 2026</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="role-tag role-awper">AWPer / Rifler</span>
+          <span class="country">🇷🇺 Rusia &mdash; 20 años</span>
+        </div>
+        <p class="bio">
+          El jugador más explosivo de la nueva generación. m0NESY es temido tanto con el AWP como
+          con el rifle, combinando mecánicas agresivas con movimientos instintivos que dejan boquiabiertos
+          a rivales y espectadores. Fue EVP en el PGL Cluj-Napoca 2026 y terminó el grupo de IEM Rio
+          con las mejores estadísticas del torneo, superando a donk y ZywOo. Se unió a Team Falcons
+          para volver a jugar junto a NiKo.
+        </p>
+        <div class="achievements">
+          <span class="pill gold">IEM Rio 2026 — Mejor Stats</span>
+          <span class="pill cyan">EVP Cluj-Napoca 2026</span>
+          <span class="pill">Ex-G2 Esports (main star)</span>
+          <span class="pill">152 partidas FACEIT Q1 2026</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- #4 sh1ro -->
+    <article class="card">
+      <div class="card-rank"></div>
+      <div class="card-watermark">4</div>
+      <div class="card-header">
+        <div class="avatar">SH</div>
+        <div class="card-title">
+          <p class="rank-label"># 04 &mdash; Pilar de Team Spirit</p>
+          <p class="player-alias">sh1ro</p>
+          <p class="player-name">Dmitriy Sokolov</p>
+          <span class="team-badge">Team Spirit</span>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-value">1.16</div><div class="stat-label">Rating 2.0</div></div>
+        <div class="stat"><div class="stat-value">70%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat"><div class="stat-value">EVP</div><div class="stat-label">IEM Kraków</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="role-tag role-awper">AWPer</span>
+          <span class="country">🇷🇺 Rusia &mdash; 24 años</span>
+        </div>
+        <p class="bio">
+          Considerado uno de los AWPers más letales del mundo, sh1ro combina flicks devastadores
+          con una colocación impecable del punto de mira. Su frialdad mental es legendaria: ya sea
+          que el equipo vaya ganando o perdiendo, siempre mantiene el mismo foco letal. Fue EVP
+          en IEM Kraków 2026 y es el complemento perfecto al estilo agresivo de donk dentro de
+          Team Spirit.
+        </p>
+        <div class="achievements">
+          <span class="pill gold">Major Shanghai 2024</span>
+          <span class="pill cyan">EVP IEM Kraków 2026</span>
+          <span class="pill">Top-8 consistente en Majors</span>
+          <span class="pill red">51 partidas FACEIT Q1 2026</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- #5 ropz -->
+    <article class="card">
+      <div class="card-rank"></div>
+      <div class="card-watermark">5</div>
+      <div class="card-header">
+        <div class="avatar">RZ</div>
+        <div class="card-title">
+          <p class="rank-label"># 05 &mdash; Mejor Lurker del Mundo</p>
+          <p class="player-alias">ropz</p>
+          <p class="player-name">Robin Kool</p>
+          <span class="team-badge">Team Vitality</span>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-value">1.14</div><div class="stat-label">Rating 2.0</div></div>
+        <div class="stat"><div class="stat-value">72%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat"><div class="stat-value">MVP</div><div class="stat-label">BLAST Spring</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="role-tag role-lurker">Lurker</span>
+          <span class="country">🇪🇪 Estonia &mdash; 24 años</span>
+        </div>
+        <p class="bio">
+          El mejor lurker del Counter-Strike moderno. ropz controla flancos, aísla jugadores y se
+          infiltra detrás de líneas enemigas con una inteligencia táctica sin igual. Se convirtió en el
+          primer jugador de Vitality en ganar un MVP en los 8 años de historia del equipo (BLAST
+          Spring 2026), siendo además uno de los jugadores con más ganancias en premios en la historia
+          de CS2. Comparte el rol de rifle con ZywOo formando el dúo más temible del circuito.
+        </p>
+        <div class="achievements">
+          <span class="pill gold">1er MVP en Vitality (2026)</span>
+          <span class="pill gold">Major Budapest 2025</span>
+          <span class="pill cyan">Top prizemoney CS2 — historial</span>
+          <span class="pill">~140 torneos jugados en carrera</span>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Fuentes: <span>HLTV.org</span> · <span>Escorenews</span> · <span>Esports Charts</span> · Datos al <span>Junio 2026</span></p>
+  </footer>
+
+</body>
+</html>
